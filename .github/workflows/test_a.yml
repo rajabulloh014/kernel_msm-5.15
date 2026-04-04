@@ -2,7 +2,7 @@ name: "Build kernels Test-a"
 
 env:
   OUT_DIR: "out"
-  KERNEL_VERSION: "6.6.89"
+  KERNEL_VERSION: "6.6"
   ANDROID_VERSION: "15"
 
 on:
@@ -148,7 +148,7 @@ jobs:
       - name: "📥 Initialize repo"
         working-directory: ${{ env.WORK_DIR}}
         run: |
-          repo init -u https://android.googlesource.com/kernel/manifest -b common-android13-5.15-lts --depth=1
+          repo init -u https://android.googlesource.com/kernel/manifest -b common-android15-6.6-lts --depth=1
           repo sync --optimized-fetch --prune --no-clone-bundle --no-tags -j$(nproc --all)
           
           rm -rf .repo
@@ -164,7 +164,7 @@ jobs:
           rm -rf prebuilts/clang/host/linux-x86/clang-stable
           
           sed -i \
-           -e 's/^BRANCH=.*/BRANCH=android13-5.15/' \
+           -e 's/^BRANCH=.*/BRANCH=android15-6.6/' \ 
            -e 's/^CLANG_VERSION=.*/CLANG_VERSION=r547379/' \
            ${{ env.kernelDir }}/${{ env.kernelName }}/build.config.constants
           
